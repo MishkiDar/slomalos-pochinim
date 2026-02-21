@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103551567', 'ym');
+
+        ym(103551567, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/103551567" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <!-- Top.Mail.Ru counter -->
+    <script type="text/javascript">
+        var _tmr = window._tmr || (window._tmr = []);
+        _tmr.push({id: "3743283", type: "pageView", start: (new Date()).getTime()});
+        (function (d, w, id) {
+          if (d.getElementById(id)) return;
+          var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+          ts.src = "https://top-fwz1.mail.ru/js/code.js";
+          var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+          if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+        })(document, window, "tmr-code");
+    </script>
+    <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3743283;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
+    <!-- /Top.Mail.Ru counter -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta -->
+    <title>Сломалось-Починим.рф — Ремонт и сервис в вашем городе</title>
+    <meta name="description" content="Профессиональный ремонт бытовой техники, электроники, сантехники и электрики. Работаем в Москве, СПб, Казани и других городах. Опытные мастера и гарантия.">
+    <meta name="keywords" content="ремонт стиральной машины, ремонт холодильника, ремонт телевизора, вызвать сантехника, услуги электрика, ремонт квартир">
+    
+    <!-- Preload for hero image (local) -->
+    <link rel="preload" as="image" href="img.jpg" imagesrcset="img.jpg">
+
+    <!-- Premium Fonts: Manrope + Literata -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* -------------------- RESET & VARIABLES -------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #FCFAFA;
+            color: #1F2A3A;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .serif, .hero-badge, .article-highlight {
+            font-family: 'Literata', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* -------------------- HERO WITH LOCAL BACKGROUND -------------------- */
+        .hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            background-color: #2C3A4B;
+            background-image: url('img.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
+            isolation: isolate;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(95deg, rgba(18, 28, 40, 0.85) 0%, rgba(18, 28, 40, 0.65) 50%, rgba(0, 0, 0, 0.3) 100%);
+            z-index: 1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 215, 140, 0.4);
+            border-radius: 60px;
+            padding: 10px 26px;
+            display: inline-block;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #FFE7C2;
+        }
+        .hero-badge i {
+            color: #FFB347;
+            margin-right: 8px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 8vw, 4.8rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 1.1rem;
+        }
+        .hero-stats span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 18px;
+            border-radius: 40px;
+        }
+        .hero-stats i {
+            color: #FFB347;
+        }
+
+        /* Search */
+        .hero-search {
+            margin: 40px 0 20px;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(12px);
+            border-radius: 80px;
+            padding: 5px;
+            display: flex;
+            max-width: 600px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .hero-search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            color: white;
+            outline: none;
+        }
+        .hero-search input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        .hero-search button {
+            background: #FFB347;
+            border: none;
+            border-radius: 60px;
+            padding: 0 35px;
+            font-weight: 600;
+            color: #1F2A3A;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        .hero-search button:hover {
+            background: #FFA01E;
+        }
+
+        /* Section headers */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin: 70px 0 30px;
+            color: #1F2A3A;
+            font-family: 'Literata', serif;
+            position: relative;
+        }
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: #B17E4F;
+            border-radius: 4px;
+        }
+
+        .section-subhead {
+            font-size: 1.2rem;
+            color: #4A5568;
+            max-width: 700px;
+            margin: 20px 0 40px;
+        }
+
+        /* Services grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 30px;
+            padding: 30px 20px 25px;
+            text-align: center;
+            box-shadow: 0 12px 28px -12px rgba(0,0,0,0.08);
+            border: 1px solid #F0E4D8;
+            transition: 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover {
+            box-shadow: 0 25px 35px -18px #B17E4F80;
+            border-color: #B17E4F;
+            transform: translateY(-5px);
+        }
+        .service-card i {
+            font-size: 2.8rem;
+            color: #B17E4F;
+            margin-bottom: 15px;
+        }
+        .service-card .title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .service-availability {
+            font-size: 0.8rem;
+            color: #4A5568;
+            margin: 5px 0 15px;
+            background: #F6F2EE;
+            padding: 6px 0;
+            border-radius: 30px;
+        }
+        .service-availability i {
+            font-size: 0.7rem;
+            color: #27ae60;
+            margin: 0 2px;
+        }
+        .city-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .city-tag {
+            background: #F0E4D8;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2C3A4B;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .city-tag:hover {
+            background: #B17E4F;
+            color: white;
+        }
+        .city-tag.na {
+            opacity: 0.4;
+            text-decoration: line-through;
+            pointer-events: none;
+        }
+        .service-card .btn {
+            margin-top: auto;
+            background: #2C3A4B;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 12px 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .service-card .btn:hover {
+            background: #1F2A3A;
+        }
+
+        /* Article block */
+        .article-block {
+            background: white;
+            border-radius: 48px;
+            padding: 50px 50px;
+            margin: 60px 0;
+            border: 1px solid #F0E4D8;
+            box-shadow: 0 25px 40px -25px rgba(0,0,0,0.1);
+        }
+        .article-block h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-family: 'Literata', serif;
+        }
+        .article-block p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #2C3A4B;
+            margin-bottom: 25px;
+        }
+        .article-block .lead {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #B17E4F;
+        }
+
+        /* features */
+        .features-grid {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            background: #F6F2EE;
+            border-radius: 48px;
+            padding: 45px 40px;
+            margin: 60px 0;
+            border: 1px solid #DBC9B5;
+        }
+        .feature-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        .feature-item i {
+            color: #B17E4F;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .feature-item h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-family: 'Literata', serif;
+        }
+
+        /* Steps */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .step-card {
+            background: white;
+            border-radius: 40px;
+            padding: 35px 25px;
+            text-align: center;
+            border: 1px solid #F0E4D8;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #B17E4F;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            font-family: 'Literata', serif;
+        }
+        
+        .step-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-family: 'Literata', serif;
+        }
+
+        /* CTA form */
+        .cta-block {
+            background: white;
+            border-radius: 48px;
+            padding: 50px 45px;
+            margin: 60px 0;
+            border: 1px solid #F0E4D8;
+            text-align: center;
+        }
+        .cta-block h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        .cta-block p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #4A5568;
+        }
+        .subscribe-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            background: #F6F2EE;
+            border-radius: 60px;
+            padding: 5px;
+        }
+        .subscribe-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            outline: none;
+        }
+        .subscribe-form button {
+            background: #2C3A4B;
+            border: none;
+            border-radius: 60px;
+            padding: 0 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .subscribe-form button:hover {
+            background: #1F2A3A;
+        }
+
+        /* footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #DBC9B5;
+            color: #4A5568;
+            margin-top: 70px;
+            background: #FFFFFF;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            h2 { font-size: 2.2rem; }
+            .hero-search { flex-direction: column; background: transparent; gap: 10px; }
+            .hero-search button { padding: 15px; }
+            .article-block { padding: 30px 25px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero with local img.jpg background -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-check-circle"></i> Сломалось-Починим.рф — сервис №1 в вашем городе
+                </div>
+                <h1>Ремонт без головной боли: от стиральной машины до квартиры под ключ</h1>
+                <p>Опытные мастера, прозрачные цены, гарантия. Работаем в Москве, СПб, Казани и ещё 10+ городах.</p>
+                <div class="hero-stats">
+                    <span><i class="fas fa-clock"></i> 30–60 минут</span>
+                    <span><i class="fas fa-certificate"></i> Гарантия 1 год</span>
+                    <span><i class="fas fa-tools"></i> 50+ видов услуг</span>
+                </div>
+                <!-- Поиск -->
+                <div class="hero-search">
+                    <input type="text" placeholder="Что нужно починить? Например: холодильник, iPhone, унитаз...">
+                    <button><i class="fas fa-search"></i> Найти</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- ВСЕ УСЛУГИ ИЗ ТАБЛИЦЫ (сгруппированы) -->
+        <h2>Мы чиним всё</h2>
+        <div class="section-subhead">Выберите нужную услугу — уточните наличие и стоимость в вашем городе</div>
+        
+        <div class="services-grid">
+            <!-- 1. Стиральная машина -->
+            <div class="service-card">
+                <i class="fas fa-washing-machine"></i>
+                <div class="title">Стиральная машина</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 12 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span>
+                    <span class="city-tag">СПб</span>
+                    <span class="city-tag">Алма-Ата</span>
+                    <span class="city-tag">Воронеж</span>
+                    <span class="city-tag">Екб</span>
+                    <span class="city-tag">НН</span>
+                    <span class="city-tag">Казань</span>
+                    <span class="city-tag">Краснодар</span>
+                    <span class="city-tag">РнД</span>
+                    <span class="city-tag">Нск</span>
+                    <span class="city-tag">Самара</span>
+                    <span class="city-tag">Чел</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 2. Apple Watch -->
+            <div class="service-card">
+                <i class="fas fa-clock"></i>
+                <div class="title">Apple Watch</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span>
+                    <span class="city-tag">СПб</span>
+                    <span class="city-tag na">Алма-Ата</span>
+                    <span class="city-tag na">Воронеж</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 3. Поиск мастеров (услуга) -->
+            <div class="service-card">
+                <i class="fas fa-users"></i>
+                <div class="title">Поиск мастеров</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в Москве</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span>
+                    <span class="city-tag na">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 4. Посудомоечная машина -->
+            <div class="service-card">
+                <i class="fas fa-utensils"></i>
+                <div class="title">Посудомойка</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 12 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Алма-Ата</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Екб</span> <span class="city-tag">НН</span> <span class="city-tag">Казань</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Нск</span> <span class="city-tag">Самара</span> <span class="city-tag">Чел</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 5. Сушильная машина -->
+            <div class="service-card">
+                <i class="fas fa-wind"></i>
+                <div class="title">Сушильная машина</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 12 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Алма-Ата</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Екб</span> <span class="city-tag">НН</span> <span class="city-tag">Казань</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Нск</span> <span class="city-tag">Самара</span> <span class="city-tag">Чел</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 6. Электрика -->
+            <div class="service-card">
+                <i class="fas fa-bolt"></i>
+                <div class="title">Электрика</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 8 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Екб</span> <span class="city-tag">НН</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 7. Сантехника -->
+            <div class="service-card">
+                <i class="fas fa-shower"></i>
+                <div class="title">Сантехника</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 8 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Екб</span> <span class="city-tag">НН</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 8. Холодильник -->
+            <div class="service-card">
+                <i class="fas fa-snowflake"></i>
+                <div class="title">Холодильник</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 12 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Екб</span> <span class="city-tag">НН</span> <span class="city-tag">Казань</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Нск</span> <span class="city-tag">Самара</span> <span class="city-tag">Чел</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 9. Телевизор -->
+            <div class="service-card">
+                <i class="fas fa-tv"></i>
+                <div class="title">Телевизор</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 10. Ноутбук -->
+            <div class="service-card">
+                <i class="fas fa-laptop"></i>
+                <div class="title">Ноутбук</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 3 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">НН</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 11. MacBook -->
+            <div class="service-card">
+                <i class="fas fa-laptop"></i>
+                <div class="title">MacBook</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 12. iPhone -->
+            <div class="service-card">
+                <i class="fas fa-mobile-alt"></i>
+                <div class="title">iPhone</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 13. iPad -->
+            <div class="service-card">
+                <i class="fas fa-tablet-alt"></i>
+                <div class="title">iPad</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 14. Электроплита -->
+            <div class="service-card">
+                <i class="fas fa-fire"></i>
+                <div class="title">Электроплита</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 6 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 15. Духовой шкаф -->
+            <div class="service-card">
+                <i class="fas fa-oven"></i>
+                <div class="title">Духовой шкаф</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 6 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 16. Варочная панель -->
+            <div class="service-card">
+                <i class="fas fa-square"></i>
+                <div class="title">Варочная панель</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 6 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 17. Кофемашина -->
+            <div class="service-card">
+                <i class="fas fa-mug-hot"></i>
+                <div class="title">Кофемашина</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 6 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 18. Оргтехника -->
+            <div class="service-card">
+                <i class="fas fa-print"></i>
+                <div class="title">Оргтехника</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 19. Окна -->
+            <div class="service-card">
+                <i class="fas fa-window-maximize"></i>
+                <div class="title">Ремонт окон</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 4 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Нск</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 20. Ремонт квартир -->
+            <div class="service-card">
+                <i class="fas fa-building"></i>
+                <div class="title">Ремонт квартир</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 21. Интернет на дачу -->
+            <div class="service-card">
+                <i class="fas fa-wifi"></i>
+                <div class="title">Интернет на дачу</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 22. Dyson -->
+            <div class="service-card">
+                <i class="fas fa-wind"></i>
+                <div class="title">Dyson</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 23. Проектор -->
+            <div class="service-card">
+                <i class="fas fa-video"></i>
+                <div class="title">Проектор</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в СПб</div>
+                <div class="city-tags">
+                    <span class="city-tag na">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 24. Монитор -->
+            <div class="service-card">
+                <i class="fas fa-desktop"></i>
+                <div class="title">Монитор</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 3 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 25. Столярка -->
+            <div class="service-card">
+                <i class="fas fa-hammer"></i>
+                <div class="title">Столярные работы</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в Москве</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag na">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 26. Дезинсекция -->
+            <div class="service-card">
+                <i class="fas fa-bug"></i>
+                <div class="title">Дезинсекция</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 27. Подключение бытовой техники -->
+            <div class="service-card">
+                <i class="fas fa-plug"></i>
+                <div class="title">Подключение техники</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 8 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span> <span class="city-tag">Воронеж</span> <span class="city-tag">НН</span> <span class="city-tag">Краснодар</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 28. Водонагреватель -->
+            <div class="service-card">
+                <i class="fas fa-water"></i>
+                <div class="title">Водонагреватель</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 7 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">Воронеж</span> <span class="city-tag">Екб</span> <span class="city-tag">Краснодар</span> <span class="city-tag">РнД</span> <span class="city-tag">Самара</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 29. Пылесос -->
+            <div class="service-card">
+                <i class="fas fa-broom"></i>
+                <div class="title">Пылесос</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 30. Ветклиника -->
+            <div class="service-card">
+                <i class="fas fa-dog"></i>
+                <div class="title">Ветклиника</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в Москве</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag na">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 31. Компьютер -->
+            <div class="service-card">
+                <i class="fas fa-desktop"></i>
+                <div class="title">Компьютер</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+
+            <!-- 32. Химчистка -->
+            <div class="service-card">
+                <i class="fas fa-tshirt"></i>
+                <div class="title">Химчистка</div>
+                <div class="service-availability"><i class="fas fa-circle"></i> Доступно в 2 городах</div>
+                <div class="city-tags">
+                    <span class="city-tag">Мск</span> <span class="city-tag">СПб</span>
+                </div>
+                <button class="btn" onclick="window.location.href='#cta'"><i class="fas fa-chevron-right"></i> Уточнить наличие</button>
+            </div>
+        </div>
+
+        <!-- БОЛЬШАЯ СТАТЬЯ (SEO) -->
+        <div class="article-block">
+            <h3>Почему Сломалось-Починим.рф — выбор тысяч семей по всей России</h3>
+            <p class="lead">Мы не просто соединяем мастеров и клиентов. Мы создаем стандарт качества, которому доверяют.</p>
+            <p>Каждый день десятки людей сталкиваются с неожиданными поломками: сломался кран, забарахлил холодильник, перестала работать стиральная машина или просто «полетела» розетка. В такие моменты важно не растеряться и быстро найти того, кто решит проблему профессионально и без лишних затрат. Именно для этого и существует наш портал.</p>
+            <p>Мы тщательно отбираем компании-партнеров в каждом городе. Все специалисты имеют необходимые допуски, опыт и несут ответственность за результат. Когда вы оставляете заявку через наш сайт, она попадает напрямую проверенным сервисным центрам и бригадам, которые работают именно с вашим типом оборудования. Никаких случайных людей — только профи.</p>
+            <p>Наша база знаний постоянно пополняется статьями и гайдами, но главное — мы гарантируем, что любая услуга из списка будет выполнена качественно. Будь то ремонт элитной кофемашины в Москве, замена унитаза в Казани или подключение стиральной машины в Краснодаре — вы получите сервис, за который не стыдно.</p>
+            <p>Мы работаем прозрачно: стоимость обсуждается до начала работ, а все дополнительные действия согласуются с вами. Никаких скрытых комиссий и навязанных услуг. Наша миссия — вернуть вам комфорт и спокойствие, чтобы вы занимались своими делами, а не думали о том, как починить сломавшуюся вещь.</p>
+            <p><strong>Сломалось-Починим.рф</strong> — это не просто сайт. Это ваш личный помощник, который знает, кого позвать на помощь и как это сделать быстро. Попробуйте сами: найдите нужную услугу в списке, уточните наличие в вашем городе и оставьте заявку. Уже через несколько минут с вами свяжутся для согласования деталей.</p>
+        </div>
+
+        <!-- Как мы работаем (быстрые шаги) -->
+        <h2>Как получить помощь</h2>
+        <div class="steps-grid">
+            <div class="step-card"><div class="step-number">1</div><div class="step-title">Выбираете услугу</div><div class="step-desc">Находите в каталоге то, что нужно починить или установить.</div></div>
+            <div class="step-card"><div class="step-number">2</div><div class="step-title">Уточняете наличие</div><div class="step-desc">Кликаете по кнопке и указываете свой город — мы проверим, доступна ли услуга.</div></div>
+            <div class="step-card"><div class="step-number">3</div><div class="step-title">Согласуете детали</div><div class="step-desc">Мастер или компания связывается с вами, договариваетесь о цене и времени.</div></div>
+            <div class="step-card"><div class="step-number">4</div><div class="step-title">Радуетесь результату</div><div class="step-desc">Проблема решена, вы довольны, а техника работает как новая.</div></div>
+        </div>
+
+        <!-- Features -->
+        <div class="features-grid">
+            <div class="feature-item"><i class="fas fa-shield-alt"></i><h3>Гарантия</h3><p>На все работы — от 1 года. Если что-то пойдет не так, исправим бесплатно.</p></div>
+            <div class="feature-item"><i class="fas fa-clock"></i><h3>Скорость</h3><p>Срочный выезд за 30–60 минут в большинстве городов.</p></div>
+            <div class="feature-item"><i class="fas fa-hand-holding-heart"></i><h3>Честно</h3><p>Фиксируем цену до начала работ, без доплат «по факту».</p></div>
+        </div>
+
+        <!-- БЛОК СБОРА ЗАЯВОК (имитация лид-формы) -->
+        <div class="cta-block" id="cta">
+            <h3>Нужна помощь? Оставьте заявку</h3>
+            <p>Мы перезвоним за 5 минут, уточним детали и подберем мастера в вашем городе.</p>
+            <div class="subscribe-form">
+                <input type="text" placeholder="Ваше имя">
+                <input type="tel" placeholder="+7 (999) 999-99-99">
+                <button>Отправить</button>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #777;">Нажимая кнопку, вы соглашаетесь с политикой обработки данных</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p><i class="far fa-copyright"></i> Сломалось-Починим.рф, 2026 | Ремонт и сервис по всей России</p>
+            <p style="margin-top: 12px;">Москва · Санкт-Петербург · Казань · Краснодар · Ростов-на-Дону · Новосибирск · Самара · Челябинск · Екатеринбург · Воронеж · Нижний Новгород · Алма-Ата</p>
+        </div>
+    </div>
+
+    <script>
+        // Можно добавить легкую интерактивность для уведомления
+        document.querySelectorAll('.service-card .btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Спасибо! В ближайшее время с вами свяжется специалист для уточнения деталей.');
+                // Здесь будет переход на форму или открытие модалки
+            });
+        });
+    </script>
+</body>
+</html>
