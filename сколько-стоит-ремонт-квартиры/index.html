@@ -54,6 +54,7 @@
             --soft-black: #1e1e1e;
             --success-green: #6b8f7a;
             --progress-bg: #e0dbd7;
+            --telegram-blue: #0088cc;
         }
 
         h1, h2, h3, .logo-text, .nav-item, .price-big, .btn, .stat-number {
@@ -366,6 +367,35 @@
         .final-block p {
             font-size: 1.3rem;
             margin-bottom: 30px;
+        }
+        .success-message {
+            background: var(--bg-light);
+            border-radius: 40px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 2px solid var(--accent-sand);
+        }
+        .success-message i {
+            font-size: 4rem;
+            color: var(--success-green);
+            margin-bottom: 20px;
+        }
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--telegram-blue);
+            color: white;
+            text-decoration: none;
+            padding: 18px 42px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: opacity 0.2s;
+        }
+        .telegram-btn:hover {
+            opacity: 0.9;
         }
         .phone-input {
             background: var(--bg-light);
@@ -755,7 +785,7 @@
         </div>
     </section>
 
-    <!-- 2. КВИЗ ДЛЯ СЕМЕЙ С ДЕТЬМИ (ПЕРВЫЙ ВАРИАНТ) -->
+    <!-- 2. КВИЗ ДЛЯ СЕМЕЙ С ДЕТЬМИ (С ОДНИМ НАЖАТИЕМ) -->
     <section class="quiz-section" id="quiz">
         <div class="container">
             <div class="quiz-container" id="quizContainer">
@@ -969,7 +999,7 @@
                 });
             });
 
-            // ========== ЛОГИКА КВИЗА ==========
+            // ========== ЛОГИКА КВИЗА (ОДНО НАЖАТИЕ) ==========
             const quizContainer = document.getElementById('quizContainer');
             
             // Данные квиза
@@ -987,8 +1017,7 @@
                 {
                     question: "Какие зоны для вас наиболее важны?",
                     options: ["Детская комната", "Кухня", "Гостиная", "Ванная (безопасность)"],
-                    image: "🎯",
-                    multi: true
+                    image: "🎯"
                 },
                 {
                     question: "Какой бюджет планируете?",
@@ -1009,7 +1038,6 @@
 
             let currentStep = 0;
             let answers = [];
-            let selectedOptions = [];
 
             function renderQuiz() {
                 if (currentStep < quizData.length) {
@@ -1018,7 +1046,7 @@
                     let html = `
                         <div class="quiz-header">
                             <h2>Подберите ремонт для вашей семьи</h2>
-                            <p>Ответьте на 6 вопросов за 2 минуты</p>
+                            <p>Нажимайте на варианты — это займёт всего минуту</p>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${((currentStep) / quizData.length) * 100}%;"></div>
@@ -1028,83 +1056,73 @@
                             <h3>${q.image} ${q.question}</h3>
                             <div class="options-grid" id="optionsGrid">
                                 ${q.options.map((opt, idx) => 
-                                    `<div class="option-btn" data-index="${idx}">${opt}</div>`
+                                    `<div class="option-btn" data-index="${idx}" data-option="${opt}">${opt}</div>`
                                 ).join('')}
                             </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <button class="btn-quiz" id="nextBtn" disabled>Далее →</button>
                         </div>
                     `;
                     quizContainer.innerHTML = html;
 
-                    // Обработчики для кнопок-вариантов
+                    // Обработчик для кнопок-вариантов (ОДНО НАЖАТИЕ - ПЕРЕХОД)
                     const optionBtns = document.querySelectorAll('.option-btn');
-                    const nextBtn = document.getElementById('nextBtn');
                     
                     optionBtns.forEach(btn => {
                         btn.addEventListener('click', function() {
-                            // Убираем выделение у всех в этой группе, если не множественный выбор
-                            if (!quizData[currentStep].multi) {
-                                optionBtns.forEach(b => b.classList.remove('selected'));
-                            } else {
-                                // Для множественного выбора можно просто переключать класс
-                                // Но в этом примере оставим одиночный для простоты
-                                optionBtns.forEach(b => b.classList.remove('selected'));
-                            }
+                            // Сохраняем ответ
+                            answers[currentStep] = {
+                                question: quizData[currentStep].question,
+                                answer: this.dataset.option
+                            };
+                            
+                            // Показываем, что этот вариант выбран
+                            optionBtns.forEach(b => b.classList.remove('selected'));
                             this.classList.add('selected');
-                            selectedOptions[currentStep] = this.dataset.index;
-                            nextBtn.disabled = false;
+                            
+                            // Переход к следующему шагу через небольшую задержку для анимации
+                            setTimeout(() => {
+                                currentStep++;
+                                renderQuiz();
+                            }, 200);
                         });
                     });
                 } else {
-                    // Финальный экран
-                    const totalSteps = quizData.length;
+                    // Финальный экран с сообщением о связи и кнопкой Telegram
                     let html = `
                         <div class="quiz-header">
-                            <h2>✍️ Почти готово!</h2>
+                            <h2>✉️ Спасибо за ответы!</h2>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 100%;"></div>
                         </div>
                         <div class="final-block">
-                            <h3>Ваш персональный план ремонта</h3>
-                            <p><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Ремонт с акцентом на безопасность и экологичность</p>
-                            <p><strong>Ориентировочная стоимость: 750 000 ₽</strong></p>
-                            <div class="offer-note">
-                                <i class="fas fa-download"></i>
-                                <strong>Скачайте чек-лист:</strong> «Безопасный ремонт, когда в доме дети. 15 важных шагов»
+                            <div class="success-message">
+                                <i class="fas fa-check-circle"></i>
+                                <h3>Мы уже готовим для вас расчёт</h3>
+                                <p style="font-size: 1.2rem; margin: 20px 0;">
+                                    Наш специалист свяжется с вами в ближайшее время<br>
+                                    для уточнения деталей и подготовки точной сметы.
+                                </p>
                             </div>
-                            <input type="tel" class="phone-input" placeholder="Ваш телефон" value="+7">
-                            <button class="btn-quiz" id="submitQuiz">Получить чек-лист и смету</button>
-                            <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.7;">Нажимая кнопку, вы соглашаетесь с обработкой данных</p>
+                            
+                            <div class="offer-note" style="background: var(--pure-white); border: 2px dashed var(--accent-rose);">
+                                <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--accent-rose);"></i>
+                                <h3 style="margin: 15px 0;">Ваш чек-лист готов!</h3>
+                                <p><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
+                                <p style="margin: 15px 0;">Чтобы получить PDF-файл, перейдите в наш Telegram-бот — он пришлёт его мгновенно!</p>
+                            </div>
+                            
+                            <a href="#" class="telegram-btn">
+                                <i class="fab fa-telegram-plane"></i> Получить чек-лист в Telegram
+                            </a>
+                            
+                            <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.7;">
+                                Нажимая на кнопку, вы соглашаетесь на получение чек-листа и консультации
+                            </p>
                         </div>
                     `;
                     quizContainer.innerHTML = html;
-
-                    // Обработчик для финальной отправки
-                    document.getElementById('submitQuiz')?.addEventListener('click', function() {
-                        const phone = document.querySelector('.phone-input')?.value;
-                        if (phone && phone.length > 5) {
-                            alert('Спасибо! Мы отправили чек-лист на ваш телефон в Telegram (или вы получите СМС). Наш специалист свяжется с вами для уточнения сметы.');
-                            // Здесь можно добавить реальную отправку данных
-                        } else {
-                            alert('Пожалуйста, введите корректный номер телефона');
-                        }
-                    });
                 }
             }
-
-            // Обработчик кнопки "Далее"
-            document.addEventListener('click', function(e) {
-                if (e.target && e.target.id === 'nextBtn') {
-                    if (selectedOptions[currentStep] !== undefined) {
-                        answers[currentStep] = selectedOptions[currentStep];
-                        currentStep++;
-                        renderQuiz();
-                    }
-                }
-            });
 
             // Инициализация квиза
             renderQuiz();
