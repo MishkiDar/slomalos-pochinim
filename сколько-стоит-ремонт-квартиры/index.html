@@ -128,7 +128,6 @@
         }
         .contact-info {
             display: flex;
-            gap: 25px;
             align-items: center;
         }
         .phone-link {
@@ -146,23 +145,6 @@
         }
         .phone-link:hover {
             color: var(--accent-rose);
-        }
-        .btn-header {
-            background: transparent;
-            border: 1.5px solid var(--accent-rose);
-            color: var(--primary-dark);
-            padding: 12px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-header:hover {
-            background: var(--accent-rose);
-            color: white;
         }
 
         /* ===== HERO СЕКЦИЯ ===== */
@@ -368,6 +350,33 @@
             font-size: 1.3rem;
             margin-bottom: 30px;
         }
+        .phone-input-block {
+            background: var(--bg-light);
+            border-radius: 40px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 2px dashed var(--accent-rose);
+        }
+        .phone-input-block h3 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+        .phone-input-field {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 20px;
+            background: var(--pure-white);
+            border: 2px solid var(--gray-border);
+            border-radius: 60px;
+            padding: 18px 28px;
+            font-size: 1.1rem;
+            font-family: 'Roboto', sans-serif;
+        }
+        .phone-input-field:focus {
+            outline: none;
+            border-color: var(--accent-rose);
+        }
         .success-message {
             background: var(--bg-light);
             border-radius: 40px;
@@ -396,22 +405,6 @@
         }
         .telegram-btn:hover {
             opacity: 0.9;
-        }
-        .phone-input {
-            background: var(--bg-light);
-            border: 2px solid var(--gray-border);
-            border-radius: 60px;
-            padding: 20px 30px;
-            font-size: 1.2rem;
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
-            display: block;
-            font-family: 'Roboto', sans-serif;
-        }
-        .phone-input:focus {
-            outline: none;
-            border-color: var(--accent-rose);
         }
         .offer-note {
             font-size: 1rem;
@@ -442,8 +435,23 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+        .btn-pdf {
+            background: var(--accent-rose);
+            color: white;
+            border: none;
+            padding: 18px 42px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .btn-pdf:hover {
+            background: #a07a78;
+        }
 
-        /* ===== ПРЕИМУЩЕСТВА (КОМПАКТНЫЕ) ===== */
+        /* ===== ПРЕИМУЩЕСТВА ===== */
         .benefits {
             padding: 80px 0;
             background: var(--pure-white);
@@ -489,7 +497,71 @@
             margin-top: 15px;
         }
 
-        /* ===== ОГРАНИЧЕНИЯ И СТОП-ФАКТОРЫ (ЧЕСТНОСТЬ) ===== */
+        /* ===== БЕСПЛАТНЫЙ ВЫЕЗД ===== */
+        .free-visit {
+            padding: 60px 0;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--pure-white) 100%);
+            border-top: 1px solid var(--gray-border);
+            border-bottom: 1px solid var(--gray-border);
+        }
+        .free-visit-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .free-visit-content h3 {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .free-visit-content h3 span {
+            color: var(--accent-rose);
+            font-weight: 700;
+        }
+        .free-visit-content p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #5c5c5c;
+        }
+        .free-visit-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .free-visit-form input {
+            flex: 1;
+            min-width: 250px;
+            background: var(--pure-white);
+            border: 2px solid var(--gray-border);
+            border-radius: 60px;
+            padding: 18px 28px;
+            font-size: 1.1rem;
+            font-family: 'Roboto', sans-serif;
+        }
+        .free-visit-form input:focus {
+            outline: none;
+            border-color: var(--accent-rose);
+        }
+        .free-visit-form button {
+            background: var(--accent-rose);
+            color: white;
+            border: none;
+            padding: 18px 32px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .free-visit-form button:hover {
+            background: #a07a78;
+        }
+
+        /* ===== УСЛОВИЯ СОТРУДНИЧЕСТВА ===== */
         .limits {
             padding: 70px 0;
             background: var(--bg-light);
@@ -516,32 +588,37 @@
             font-size: 1.3rem;
             min-width: 24px;
         }
-        .stop-factor {
-            background: rgba(178,145,143,0.1);
+        .warning-box {
+            background: rgba(226,184,156,0.1);
             padding: 30px;
             border-radius: 24px;
+            border-left: 5px solid var(--accent-sand);
         }
-        .stop-factor h3 {
+        .warning-box h3 {
             font-size: 1.8rem;
             margin-bottom: 20px;
+            color: var(--primary-dark);
         }
-        .stop-factor ul {
+        .warning-box ul {
             list-style: none;
         }
-        .stop-factor ul li {
+        .warning-box ul li {
             margin-bottom: 12px;
             padding-left: 30px;
             position: relative;
+            color: #5c5c5c;
         }
-        .stop-factor ul li:before {
-            content: '✕';
+        .warning-box ul li:before {
+            content: '•';
             color: var(--accent-rose);
             font-weight: 700;
+            font-size: 1.5rem;
             position: absolute;
             left: 0;
+            top: -5px;
         }
 
-        /* ===== ПОРТФОЛИО (ПРИМЕРЫ РАБОТ) ===== */
+        /* ===== ПОРТФОЛИО ===== */
         .portfolio {
             padding: 80px 0;
             background: var(--pure-white);
@@ -551,7 +628,6 @@
             grid-template-columns: 1fr 1fr;
             gap: 40px;
             align-items: center;
-            margin-bottom: 60px;
             background: var(--bg-light);
             border-radius: 40px;
             padding: 40px;
@@ -559,18 +635,21 @@
         }
         .portfolio-images {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
         .portfolio-images img {
             width: 100%;
-            height: 180px;
+            height: 200px;
             object-fit: cover;
-            border-radius: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--gray-border);
         }
-        .portfolio-images img:first-child {
-            grid-column: span 3;
-            height: 280px;
+        .portfolio-images img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 25px -10px rgba(0,0,0,0.2);
         }
         .portfolio-content h3 {
             font-size: 2rem;
@@ -599,55 +678,195 @@
             font-weight: 600;
         }
 
-        /* ===== ВИДЕО-ОТЗЫВЫ ===== */
-        .video-reviews {
-            padding: 80px 0;
-            background: var(--bg-light);
+        /* ===== СТИЛИ ДЛЯ ГАЛЕРЕИ ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
         }
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .video-card {
-            background: var(--pure-white);
-            border-radius: 30px;
-            overflow: hidden;
-            border: 1px solid var(--gray-border);
-        }
-        .video-embed {
-            height: 200px;
-            background: #ddd;
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 900px;
+            height: 90%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #aaa;
         }
-        .video-card p {
-            padding: 20px;
+        .modal-slide {
+            display: none;
+        }
+        .modal-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .close-modal:hover {
+            color: var(--accent-sand);
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 30px;
+            transition: 0.3s;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background: rgba(0,0,0,0.3);
+        }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        .prev:hover, .next:hover {
+            background: var(--accent-rose);
         }
 
-        /* ===== КАЛЬКУЛЯТОР (УПРОЩЕННЫЙ) ===== */
-        .calculator {
+        /* ===== ЦЕНЫ (ПРЕМИАЛЬНЫЕ КАРТОЧКИ) ===== */
+        .pricing {
             padding: 80px 0;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--pure-white) 100%);
         }
-        .calc-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            background: var(--bg-light);
-            padding: 50px;
-            border-radius: 60px;
-        }
-        .calc-form {
+        .price-categories {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
         }
-        .calc-result {
-            background: var(--pure-white);
-            padding: 40px;
+        .price-category {
+            background: rgba(178,145,143,0.1);
+            padding: 10px 24px;
             border-radius: 40px;
+            font-weight: 500;
+            color: var(--primary-dark);
+            border: 1px solid var(--accent-rose);
+            font-size: 0.95rem;
+        }
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        .price-card {
+            background: var(--pure-white);
+            border-radius: 30px;
+            padding: 30px 25px;
+            border: 1px solid var(--gray-border);
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .price-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-rose), var(--accent-sand));
+        }
+        .price-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-rose);
+            box-shadow: 0 20px 30px -10px rgba(178,145,143,0.2);
+        }
+        .price-card h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+        .price-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-rose);
+            margin: 20px 0;
+        }
+        .price-value small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #999;
+        }
+        .price-features {
+            list-style: none;
+            margin-top: 20px;
+        }
+        .price-features li {
+            margin-bottom: 8px;
+            color: #5c5c5c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .price-features li i {
+            color: var(--success-green);
+            font-size: 0.9rem;
+        }
+
+        /* ===== КАК МЫ РАБОТАЕМ ===== */
+        .principles {
+            padding: 80px 0;
+            background: var(--pure-white);
+        }
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .principle-icon-card {
+            text-align: center;
+            padding: 40px 30px;
+            background: var(--bg-light);
+            border-radius: 40px;
+            border: 1px solid var(--gray-border);
+            transition: 0.3s;
+        }
+        .principle-icon-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-rose);
+        }
+        .principle-icon-card i {
+            font-size: 3.5rem;
+            color: var(--accent-rose);
+            margin-bottom: 25px;
+        }
+        .principle-icon-card h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .principle-icon-card p {
+            color: #5c5c5c;
+            font-size: 1.1rem;
         }
 
         /* ===== ФОРМА ЗАХВАТА ===== */
@@ -696,18 +915,6 @@
             cursor: pointer;
         }
 
-        /* ===== ПРИНЦИПЫ РАБОТЫ ===== */
-        .principles {
-            padding: 80px 0;
-        }
-        .principle-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
-            align-items: center;
-        }
-
         /* ===== ПОДВАЛ ===== */
         .footer {
             background: var(--soft-black);
@@ -720,15 +927,24 @@
             align-items: center;
             flex-wrap: wrap;
         }
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: var(--accent-sand);
+        }
 
         /* ===== АДАПТАЦИЯ ===== */
         @media (max-width: 992px) {
-            .hero-grid, .limits-grid, .lead-form .container, .portfolio-grid, .calc-grid, .principle-item {
+            .hero-grid, .limits-grid, .lead-form .container, .portfolio-grid, .principles-grid {
                 grid-template-columns: 1fr;
             }
             h2 { font-size: 1.9rem; }
             .header .container { flex-direction: column; gap: 15px; }
             .quiz-container { padding: 30px; }
+            .free-visit-form { flex-direction: column; }
+            .free-visit-form button { width: 100%; }
         }
         @media (max-width: 600px) {
             .container { padding: 0 20px; }
@@ -736,6 +952,7 @@
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
             .quiz-container { padding: 25px; border-radius: 30px; }
             .question-block h3 { font-size: 1.4rem; }
+            .portfolio-images { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -751,7 +968,6 @@
             </div>
             <div class="contact-info">
                 <a href="tel:+78125555555" class="phone-link"><i class="fas fa-phone-alt"></i> +7 (812) 555-55-55</a>
-                <a href="#form" class="btn-header"><i class="fas fa-calendar-check"></i> Смета онлайн</a>
             </div>
         </div>
     </header>
@@ -780,12 +996,12 @@
                 <p style="margin-top: 30px; color: #5c5c5c;"><i class="fas fa-shield-alt" style="color: var(--accent-rose);"></i> Выезд специалиста — на следующий день с 09:00 до 21:00.</p>
             </div>
             <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&auto=format" alt="Современная гостиная после ремонта" loading="lazy">
+                <img src="img.jpg" alt="Современная гостиная после ремонта" loading="lazy">
             </div>
         </div>
     </section>
 
-    <!-- 2. КВИЗ ДЛЯ СЕМЕЙ С ДЕТЬМИ (С ОДНИМ НАЖАТИЕМ) -->
+    <!-- 2. КВИЗ ДЛЯ СЕМЕЙ С ДЕТЬМИ -->
     <section class="quiz-section" id="quiz">
         <div class="container">
             <div class="quiz-container" id="quizContainer">
@@ -794,10 +1010,10 @@
         </div>
     </section>
 
-    <!-- 3. ПРЕИМУЩЕСТВА (КОМПАКТНЫЕ) -->
+    <!-- 3. ПОЧЕМУ ВЫБИРАЮТ НАС -->
     <section class="benefits">
         <div class="container">
-            <h2>Почему нас выбирают</h2>
+            <h2>Почему выбирают нас</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
                     <div class="benefit-icon"><i class="fas fa-paint-roller"></i></div>
@@ -824,7 +1040,22 @@
         </div>
     </section>
 
-    <!-- 4. ОГРАНИЧЕНИЯ И СТОП-ФАКТОРЫ (ПРОЗРАЧНОСТЬ) -->
+    <!-- 4. БЕСПЛАТНЫЙ ВЫЕЗД (ВОЗВРАЩЁН) -->
+    <section class="free-visit">
+        <div class="container">
+            <div class="free-visit-content">
+                <h3><span>Бесплатный</span> выезд замерщика</h3>
+                <p>Приедем в удобное время, всё замерим и составим смету за 30 минут</p>
+                <div class="free-visit-form">
+                    <input type="tel" placeholder="Ваш телефон" value="+7">
+                    <button>Вызвать замерщика</button>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.7;">Нажимая кнопку, вы соглашаетесь на обработку данных</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. УСЛОВИЯ СОТРУДНИЧЕСТВА / ВАЖНО ЗНАТЬ -->
     <section class="limits">
         <div class="container limits-grid">
             <div>
@@ -837,8 +1068,8 @@
                     <li><i class="fa-regular fa-circle-check"></i> Натяжные потолки своего производства</li>
                 </ul>
             </div>
-            <div class="stop-factor">
-                <h3>Не беремся / Стоп-факторы</h3>
+            <div class="warning-box">
+                <h3>Важно знать</h3>
                 <ul>
                     <li>Уличные работы (фасады, коммуникации на улице)</li>
                     <li>Окна — только установка новых (не ремонт)</li>
@@ -846,22 +1077,21 @@
                     <li>Циклевка паркета только в комплексе</li>
                     <li>Не укладываем эксклюзивную плитку >80 см</li>
                     <li>Не делаем механизированную штукатурку</li>
-                    <li>Мелкий бытовой ремонт, электрика/сантехника под ключ</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- 5. ПОРТФОЛИО (ПРИМЕРЫ РАБОТ) -->
+    <!-- 6. ПОРТФОЛИО (ПРИМЕРЫ РАБОТ) -->
     <section class="portfolio">
         <div class="container">
             <h2>Примеры наших работ</h2>
             <div class="portfolio-grid">
                 <div class="portfolio-images">
-                    <img src="https://images.unsplash.com/photo-1618219944342-824e40a132cd?w=400&auto=format" alt="Кухня после ремонта">
-                    <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=400&auto=format" alt="Ванная комната">
-                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&auto=format" alt="Гостиная">
-                    <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=400&auto=format" alt="Спальня">
+                    <img src="img1.jpg" alt="Кухня после ремонта" onclick="openModal(0)">
+                    <img src="img2.jpg" alt="Ванная комната" onclick="openModal(1)">
+                    <img src="img3.jpg" alt="Гостиная" onclick="openModal(2)">
+                    <img src="img4.jpg" alt="Спальня" onclick="openModal(3)">
                 </div>
                 <div class="portfolio-content">
                     <h3>Капитальный ремонт 2-к квартиры 55 м²</h3>
@@ -876,87 +1106,88 @@
                         <div><span style="color: var(--accent-rose);">Срок:</span> 45 дней</div>
                         <div><span style="color: var(--accent-rose);">Цена:</span> 367 633 ₽</div>
                     </div>
-                    <a href="#" class="btn-header">Смотреть кейс полностью →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6. ЦЕНЫ (КЛЮЧЕВЫЕ УСЛУГИ) -->
+    <!-- 7. ЦЕНЫ (ПРЕМИАЛЬНЫЕ КАРТОЧКИ) -->
     <section class="pricing" id="pricing">
         <div class="container">
             <h2>Стоимость ремонта под ключ</h2>
-            <div class="price-tabs">
-                <span class="price-tab-item">Квартиры</span>
-                <span class="price-tab-item">Офисы</span>
-                <span class="price-tab-item">Коттеджи</span>
-                <span class="price-tab-item">Комнаты</span>
-                <span class="price-tab-item">Санузлы</span>
+            <div class="price-categories">
+                <span class="price-category">Квартиры</span>
+                <span class="price-category">Офисы</span>
+                <span class="price-category">Коттеджи</span>
+                <span class="price-category">Комнаты</span>
+                <span class="price-category">Санузлы</span>
             </div>
             <div class="price-grid">
-                <div class="price-card"><h3>Косметический</h3><div class="price-value">от 1 700 ₽/м²</div></div>
-                <div class="price-card"><h3>Капитальный</h3><div class="price-value">от 4 900 ₽/м²</div></div>
-                <div class="price-card"><h3>Евроремонт</h3><div class="price-value">от 7 500 ₽/м²</div></div>
-                <div class="price-card"><h3>Ванная</h3><div class="price-value">от 120 000 ₽</div></div>
+                <div class="price-card">
+                    <h3>Косметический</h3>
+                    <div class="price-value">от 1 700 ₽/м²</div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check"></i> Обновление стен и потолков</li>
+                        <li><i class="fas fa-check"></i> Замена напольных покрытий</li>
+                        <li><i class="fas fa-check"></i> 14 дней</li>
+                    </ul>
+                </div>
+                <div class="price-card">
+                    <h3>Капитальный</h3>
+                    <div class="price-value">от 4 900 ₽/м²</div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check"></i> Полная замена коммуникаций</li>
+                        <li><i class="fas fa-check"></i> Выравнивание всех поверхностей</li>
+                        <li><i class="fas fa-check"></i> 30-45 дней</li>
+                    </ul>
+                </div>
+                <div class="price-card">
+                    <h3>Евроремонт</h3>
+                    <div class="price-value">от 7 500 ₽/м²</div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check"></i> Дизайн-проект</li>
+                        <li><i class="fas fa-check"></i> Премиальные материалы</li>
+                        <li><i class="fas fa-check"></i> 45-60 дней</li>
+                    </ul>
+                </div>
+                <div class="price-card">
+                    <h3>Ванная</h3>
+                    <div class="price-value">от 120 000 ₽</div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check"></i> Гидроизоляция</li>
+                        <li><i class="fas fa-check"></i> Укладка плитки</li>
+                        <li><i class="fas fa-check"></i> Сантехника под ключ</li>
+                    </ul>
+                </div>
             </div>
-
-            <!-- Таблица детальных цен -->
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Вид работ</th><th>Услуга</th><th>Цена</th></tr></thead>
-                    <tbody>
-                        <tr><td>Плитка</td><td>Укладка на пол</td><td>от 2 100 ₽/м²</td></tr>
-                        <tr><td>Ламинат</td><td>Укладка прямая</td><td>от 480 ₽/м²</td></tr>
-                        <tr><td>Стяжка</td><td>Цементно-песчаная до 5 см</td><td>от 1 000 ₽/м²</td></tr>
-                        <tr><td>Натяжной потолок</td><td>Под ключ</td><td>от 9 600 ₽</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div style="margin-top: 30px;"><a href="#" class="btn-header">Смотреть все цены</a></div>
         </div>
     </section>
 
-    <!-- 7. ВИДЕО-ОТЗЫВЫ -->
-    <section class="video-reviews">
-        <div class="container">
-            <h2>Видео-отзывы о нашей работе</h2>
-            <div class="video-grid">
-                <div class="video-card">
-                    <div class="video-embed"><i class="fab fa-youtube" style="font-size: 3rem; color: #ccc;"></i></div>
-                    <p><strong>Ремонт в ЖК "Сердце столицы"</strong><br>Заказчик: Степан</p>
-                </div>
-                <div class="video-card">
-                    <div class="video-embed"><i class="fab fa-youtube" style="font-size: 3rem; color: #ccc;"></i></div>
-                    <p><strong>Дизайнерский ремонт 40 м²</strong><br>Заказчик: Мария</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="#" class="btn-secondary">Больше видео на YouTube →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. ПРИНЦИПЫ РАБОТЫ (ПОДРОБНО) -->
+    <!-- 8. КАК МЫ РАБОТАЕМ (ПРОСТО ДВЕ ИКОНКИ) -->
     <section class="principles">
         <div class="container">
             <h2>Как мы работаем</h2>
-            <div class="principle-item">
-                <div><h3>1. Контроль качества</h3><p>5 уровней контроля: от главного инженера до клиент-менеджера.</p></div>
-                <div><img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=400&auto=format" style="border-radius: 30px;" alt="Контроль"></div>
-            </div>
-            <div class="principle-item">
-                <div><h3>2. Строгий подбор рабочих</h3><p>Только граждане РФ, курсы, полигон, переаттестация.</p></div>
-                <div><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&auto=format" style="border-radius: 30px;" alt="Рабочие"></div>
+            <div class="principles-grid">
+                <div class="principle-icon-card">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Контроль качества</h3>
+                    <p>5 уровней проверки на каждом этапе ремонта</p>
+                </div>
+                <div class="principle-icon-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Строгий отбор</h3>
+                    <p>Только опытные мастера с регулярной аттестацией</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 9. ФОРМА ЗАХВАТА (ЛИД-МАГНИТ) -->
+    <!-- 9. ФОРМА ЗАХВАТА -->
     <section class="lead-form" id="form">
         <div class="container">
             <div class="form-content">
                 <h2>Получите смету и запись на бесплатный осмотр</h2>
-                <p>Врать не будем. Цена не изменится после подписания договора.</p>
+                <p>Цена не изменится после подписания договора.</p>
                 <div class="input-group">
                     <input type="tel" placeholder="Ваш телефон" class="input-field" value="+7">
                     <button class="btn-form">Позвоните мне</button>
@@ -987,10 +1218,31 @@
         </div>
     </footer>
 
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ ГАЛЕРЕИ -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <div class="modal-slide" id="slide0">
+                <img src="img1.jpg" alt="Кухня после ремонта">
+            </div>
+            <div class="modal-slide" id="slide1">
+                <img src="img2.jpg" alt="Ванная комната">
+            </div>
+            <div class="modal-slide" id="slide2">
+                <img src="img3.jpg" alt="Гостиная">
+            </div>
+            <div class="modal-slide" id="slide3">
+                <img src="img4.jpg" alt="Спальня">
+            </div>
+            <a class="prev" onclick="changeSlide(-1)">❮</a>
+            <a class="next" onclick="changeSlide(1)">❯</a>
+        </div>
+    </div>
+
     <script>
         (function() {
             // Маска для телефона
-            const phoneInputs = document.querySelectorAll('.input-field[type="tel"], .phone-input');
+            const phoneInputs = document.querySelectorAll('.input-field[type="tel"], .phone-input-field, .free-visit-form input[type="tel"]');
             phoneInputs.forEach(input => {
                 input.addEventListener('focus', function() {
                     if (this.value === '+7' || this.value === '') {
@@ -1038,6 +1290,7 @@
 
             let currentStep = 0;
             let answers = [];
+            let showPhoneStep = false;
 
             function renderQuiz() {
                 if (currentStep < quizData.length) {
@@ -1086,47 +1339,127 @@
                         });
                     });
                 } else {
-                    // Финальный экран с сообщением о связи и кнопкой Telegram
-                    let html = `
-                        <div class="quiz-header">
-                            <h2>✉️ Спасибо за ответы!</h2>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 100%;"></div>
-                        </div>
-                        <div class="final-block">
-                            <div class="success-message">
-                                <i class="fas fa-check-circle"></i>
-                                <h3>Мы уже готовим для вас расчёт</h3>
-                                <p style="font-size: 1.2rem; margin: 20px 0;">
-                                    Наш специалист свяжется с вами в ближайшее время<br>
-                                    для уточнения деталей и подготовки точной сметы.
+                    if (!showPhoneStep) {
+                        // Шаг с вводом телефона
+                        let html = `
+                            <div class="quiz-header">
+                                <h2>📋 Остался последний шаг!</h2>
+                                <p>Введите номер телефона, чтобы получить чек-лист</p>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                            <div class="final-block">
+                                <div class="phone-input-block">
+                                    <h3>Ваш чек-лист готов</h3>
+                                    <p style="margin-bottom: 30px;"><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
+                                    <input type="tel" class="phone-input-field" placeholder="Ваш телефон" value="+7">
+                                    <button class="btn-pdf" id="getPdfBtn">Получить чек-лист</button>
+                                </div>
+                            </div>
+                        `;
+                        quizContainer.innerHTML = html;
+                        
+                        // Добавляем маску для телефона
+                        const phoneField = document.querySelector('.phone-input-field');
+                        if (phoneField) {
+                            phoneField.addEventListener('focus', function() {
+                                if (this.value === '+7' || this.value === '') {
+                                    this.value = '+7 ';
+                                }
+                            });
+                        }
+                        
+                        // Обработчик кнопки "Получить чек-лист"
+                        document.getElementById('getPdfBtn')?.addEventListener('click', function() {
+                            const phone = document.querySelector('.phone-input-field')?.value;
+                            if (phone && phone.length > 5) {
+                                showPhoneStep = true;
+                                renderQuiz();
+                            } else {
+                                alert('Пожалуйста, введите корректный номер телефона');
+                            }
+                        });
+                    } else {
+                        // Финальный экран с сообщением о связи и кнопкой Telegram
+                        let html = `
+                            <div class="quiz-header">
+                                <h2>✉️ Спасибо за ответы!</h2>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                            <div class="final-block">
+                                <div class="success-message">
+                                    <i class="fas fa-check-circle"></i>
+                                    <h3>Мы уже готовим для вас расчёт</h3>
+                                    <p style="font-size: 1.2rem; margin: 20px 0;">
+                                        Наш специалист свяжется с вами в ближайшее время<br>
+                                        для уточнения деталей и подготовки точной сметы.
+                                    </p>
+                                </div>
+                                
+                                <div class="offer-note" style="background: var(--pure-white); border: 2px dashed var(--accent-rose);">
+                                    <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--accent-rose);"></i>
+                                    <h3 style="margin: 15px 0;">Ваш чек-лист готов!</h3>
+                                    <p><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
+                                    <p style="margin: 15px 0;">Чтобы получить PDF-файл, перейдите в наш Telegram-бот — он пришлёт его мгновенно!</p>
+                                </div>
+                                
+                                <a href="#" class="telegram-btn">
+                                    <i class="fab fa-telegram-plane"></i> Получить чек-лист в Telegram
+                                </a>
+                                
+                                <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.7;">
+                                    Нажимая на кнопку, вы соглашаетесь на получение чек-листа и консультации
                                 </p>
                             </div>
-                            
-                            <div class="offer-note" style="background: var(--pure-white); border: 2px dashed var(--accent-rose);">
-                                <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--accent-rose);"></i>
-                                <h3 style="margin: 15px 0;">Ваш чек-лист готов!</h3>
-                                <p><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
-                                <p style="margin: 15px 0;">Чтобы получить PDF-файл, перейдите в наш Telegram-бот — он пришлёт его мгновенно!</p>
-                            </div>
-                            
-                            <a href="#" class="telegram-btn">
-                                <i class="fab fa-telegram-plane"></i> Получить чек-лист в Telegram
-                            </a>
-                            
-                            <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.7;">
-                                Нажимая на кнопку, вы соглашаетесь на получение чек-листа и консультации
-                            </p>
-                        </div>
-                    `;
-                    quizContainer.innerHTML = html;
+                        `;
+                        quizContainer.innerHTML = html;
+                    }
                 }
             }
 
             // Инициализация квиза
             renderQuiz();
         })();
+
+        // ========== ЛОГИКА ГАЛЕРЕИ ==========
+        let slideIndex = 0;
+        const modal = document.getElementById('imageModal');
+        const slides = document.getElementsByClassName('modal-slide');
+
+        function openModal(index) {
+            slideIndex = index;
+            modal.style.display = 'flex';
+            showSlide(slideIndex);
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function changeSlide(n) {
+            showSlide(slideIndex + n);
+        }
+
+        function showSlide(n) {
+            if (n >= slides.length) slideIndex = 0;
+            else if (n < 0) slideIndex = slides.length - 1;
+            else slideIndex = n;
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = 'none';
+            }
+            slides[slideIndex].style.display = 'block';
+        }
+
+        // Закрытие по клику вне изображения
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
     </script>
 </body>
 </html>
