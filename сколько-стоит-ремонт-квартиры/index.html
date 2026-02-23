@@ -1319,20 +1319,25 @@
     </div>
 
     <script>
-        (function() {
-            // ===== НАСТРОЙКИ TELEGRAM =====
-            const TELEGRAM_BOT_TOKEN = '8622911736:AAFdxaAhMIY8SFC-W79JKLKF8qUn4wCxO78';
-            const TELEGRAM_CHAT_ID = '7094985962';
+    (function() {
+        // ===== НАСТРОЙКИ TELEGRAM =====
+        const TELEGRAM_BOT_TOKEN = '8622911736:AAFdxaAhMIY8SFC-W79JKLKF8qUn4wCxO78';
+        const TELEGRAM_CHAT_ID = '7094985962';
+        
+        // Улучшенная функция отправки в Telegram с повторными попытками
+        async function sendToTelegram(phone, formType, quizData = '', retryCount = 3) {
+            const message = `🔔 <b>Новая заявка!</b>\n\n` +
+                           `📞 <b>Телефон:</b> ${phone}\n` +
+                           `📋 <b>Форма:</b> ${formType}\n` +
+                           (quizData ? `📝 <b>Данные квиза:</b>\n${quizData}\n` : '') +
+                           `🕒 <b>Время:</b> ${new Date().toLocaleString('ru-RU')}`;
             
-            // Функция отправки в Telegram
-            async function sendToTelegram(phone, formType, quizData = '') {
-                const message = `🔔 <b>Новая заявка!</b>\n\n` +
-                               `📞 <b>Телефон:</b> ${phone}\n` +
-                               `📋 <b>Форма:</b> ${formType}\n` +
-                               (quizData ? `📝 <b>Данные квиза:</b>\n${quizData}\n` : '') +
-                               `🕒 <b>Время:</b> ${new Date().toLocaleString('ru-RU')}`;
-                
+            // Функция для одной попытки отправки
+            async function attemptSend(attempt = 1) {
                 try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 секунд таймаут
+                    
                     const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: {
@@ -1342,288 +1347,378 @@
                             chat_id: TELEGRAM_CHAT_ID,
                             text: message,
                             parse_mode: 'HTML'
-                        })
+                        }),
+                        signal: controller.signal
                     });
                     
+                    clearTimeout(timeoutId);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
                     const data = await response.json();
-                    return data.ok;
+                    
+                    if (data.ok) {
+                        return true;
+                    } else {
+                        throw new Error(data.description || 'Unknown error');
+                    }
                 } catch (error) {
-                    console.error('Ошибка отправки в Telegram:', error);
+                    console.error(`Попытка ${attempt} не удалась:`, error);
+                    
+                    if (attempt < retryCount) {
+                        // Ждем перед повторной попыткой (увеличиваем задержку с каждой попыткой)
+                        const delay = attempt * 2000; // 2s, 4s, 6s
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return attemptSend(attempt + 1);
+                    }
+                    
                     return false;
                 }
             }
-
-            // Маска для телефона
-            const phoneInputs = document.querySelectorAll('input[type="tel"]');
-            phoneInputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    if (this.value === '+7' || this.value === '') {
-                        this.value = '+7 ';
-                    }
-                });
-            });
-
-            // ===== ЛОГИКА "УМНОЙ" ШАПКИ =====
-            const header = document.getElementById('mainHeader');
             
-            window.addEventListener('scroll', function() {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            return attemptSend(1);
+        }
+
+        // Альтернативный метод отправки через JSONP (запасной вариант)
+        async function sendToTelegramJsonP(phone, formType, quizData = '') {
+            return new Promise((resolve) => {
+                const message = `🔔 Новая заявка!\\n\\n📞 Телефон: ${phone}\\n📋 Форма: ${formType}${quizData ? '\\n📝 Данные квиза:\\n' + quizData.replace(/\n/g, '\\n') : ''}\\n🕒 Время: ${new Date().toLocaleString('ru-RU')}`;
                 
-                if (scrollTop > 30) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
+                const script = document.createElement('script');
+                const callbackName = 'telegramCallback_' + Date.now();
+                
+                // Создаем глобальную функцию для callback
+                window[callbackName] = function(response) {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    resolve(response && response.ok ? true : false);
+                };
+                
+                // Формируем URL для JSONP запроса
+                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage` +
+                           `?chat_id=${TELEGRAM_CHAT_ID}` +
+                           `&text=${encodeURIComponent(message)}` +
+                           `&parse_mode=HTML` +
+                           `&callback=${callbackName}`;
+                
+                script.src = url;
+                script.onerror = function() {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    resolve(false);
+                };
+                
+                document.body.appendChild(script);
+                
+                // Таймаут на случай если запрос завис
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        window[callbackName](null);
+                    }
+                }, 15000);
+            });
+        }
+
+        // Улучшенная функция отправки с автоматическим переключением на запасной метод
+        async function sendFormData(phone, formType, quizData = '') {
+            // Сначала пробуем основной метод с повторными попытками
+            let success = await sendToTelegram(phone, formType, quizData);
+            
+            // Если основной метод не сработал, пробуем JSONP
+            if (!success) {
+                console.log('Пробуем запасной метод отправки...');
+                success = await sendToTelegramJsonP(phone, formType, quizData);
+            }
+            
+            return success;
+        }
+
+        // Маска для телефона
+        const phoneInputs = document.querySelectorAll('input[type="tel"]');
+        phoneInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                if (this.value === '+7' || this.value === '') {
+                    this.value = '+7 ';
                 }
             });
-
-            // ===== ЛОГИКА КВИЗА =====
-            const quizContainer = document.getElementById('quizContainer');
             
-            // Данные квиза
-            const quizData = [
-                {
-                    question: "Сколько комнат в вашей квартире?",
-                    options: ["1–2 комнаты", "3–4 комнаты", "5 и более комнат"],
-                    image: "🏠"
-                },
-                {
-                    question: "Есть ли в семье дети?",
-                    options: ["Нет", "Да, до 5 лет", "Да, 5–12 лет", "Да, подростки"],
-                    image: "👶"
-                },
-                {
-                    question: "Какие зоны для вас наиболее важны?",
-                    options: ["Детская комната", "Кухня", "Гостиная", "Ванная (безопасность)"],
-                    image: "🎯"
-                },
-                {
-                    question: "Какой бюджет планируете?",
-                    options: ["До 500 тыс. ₽", "500 тыс. – 1 млн ₽", "Более 1 млн ₽"],
-                    image: "💰"
-                },
-                {
-                    question: "Насколько срочно нужен ремонт?",
-                    options: ["В течение месяца", "1–3 месяца", "Не срочно, изучаю"],
-                    image: "⏱️"
-                },
-                {
-                    question: "Важны ли экологичные материалы?",
-                    options: ["Да, очень", "Скорее да", "Не принципиально"],
-                    image: "🌿"
+            // Форматирование номера
+            input.addEventListener('input', function(e) {
+                let value = this.value.replace(/[^\d+]/g, '');
+                if (value.length > 0 && !value.startsWith('+7')) {
+                    value = '+7' + value.replace(/^\+?7?/, '');
                 }
-            ];
+                if (value.length > 12) {
+                    value = value.slice(0, 12);
+                }
+                this.value = value;
+            });
+        });
 
-            let currentStep = 0;
-            let answers = [];
-            let showPhoneStep = false;
+        // ===== ЛОГИКА "УМНОЙ" ШАПКИ =====
+        const header = document.getElementById('mainHeader');
+        
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            header.classList.toggle('scrolled', scrollTop > 30);
+        });
 
-            function renderQuiz() {
-                if (currentStep < quizData.length) {
-                    // Шаг с вопросом
-                    const q = quizData[currentStep];
+        // ===== ЛОГИКА КВИЗА =====
+        const quizContainer = document.getElementById('quizContainer');
+        
+        const quizData = [
+            { question: "Сколько комнат в вашей квартире?", options: ["1–2 комнаты", "3–4 комнаты", "5 и более комнат"], image: "🏠" },
+            { question: "Есть ли в семье дети?", options: ["Нет", "Да, до 5 лет", "Да, 5–12 лет", "Да, подростки"], image: "👶" },
+            { question: "Какие зоны для вас наиболее важны?", options: ["Детская комната", "Кухня", "Гостиная", "Ванная (безопасность)"], image: "🎯" },
+            { question: "Какой бюджет планируете?", options: ["До 500 тыс. ₽", "500 тыс. – 1 млн ₽", "Более 1 млн ₽"], image: "💰" },
+            { question: "Насколько срочно нужен ремонт?", options: ["В течение месяца", "1–3 месяца", "Не срочно, изучаю"], image: "⏱️" },
+            { question: "Важны ли экологичные материалы?", options: ["Да, очень", "Скорее да", "Не принципиально"], image: "🌿" }
+        ];
+
+        let currentStep = 0;
+        let answers = [];
+        let showPhoneStep = false;
+        let isSubmitting = false;
+
+        function renderQuiz() {
+            if (currentStep < quizData.length) {
+                const q = quizData[currentStep];
+                let html = `
+                    <div class="quiz-header">
+                        <h2>Подберите ремонт для вашей семьи</h2>
+                        <p>Нажимайте на варианты — это займёт всего минуту</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${((currentStep) / quizData.length) * 100}%;"></div>
+                    </div>
+                    <div class="step-indicator">Шаг ${currentStep + 1} из ${quizData.length}</div>
+                    <div class="question-block">
+                        <h3>${q.image} ${q.question}</h3>
+                        <div class="options-grid" id="optionsGrid">
+                            ${q.options.map((opt, idx) => 
+                                `<div class="option-btn" data-index="${idx}" data-option="${opt}">${opt}</div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+                quizContainer.innerHTML = html;
+
+                const optionBtns = document.querySelectorAll('.option-btn');
+                
+                optionBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        answers[currentStep] = {
+                            question: quizData[currentStep].question,
+                            answer: this.dataset.option
+                        };
+                        
+                        optionBtns.forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
+                        setTimeout(() => {
+                            currentStep++;
+                            renderQuiz();
+                        }, 200);
+                    });
+                });
+            } else {
+                if (!showPhoneStep) {
                     let html = `
                         <div class="quiz-header">
-                            <h2>Подберите ремонт для вашей семьи</h2>
-                            <p>Нажимайте на варианты — это займёт всего минуту</p>
+                            <h2>📋 Остался последний шаг!</h2>
+                            <p>Введите номер телефона, чтобы получить чек-лист</p>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${((currentStep) / quizData.length) * 100}%;"></div>
+                            <div class="progress-fill" style="width: 100%;"></div>
                         </div>
-                        <div class="step-indicator">Шаг ${currentStep + 1} из ${quizData.length}</div>
-                        <div class="question-block">
-                            <h3>${q.image} ${q.question}</h3>
-                            <div class="options-grid" id="optionsGrid">
-                                ${q.options.map((opt, idx) => 
-                                    `<div class="option-btn" data-index="${idx}" data-option="${opt}">${opt}</div>`
-                                ).join('')}
+                        <div class="final-block">
+                            <div class="phone-input-block">
+                                <h3>Ваш чек-лист готов</h3>
+                                <p style="margin-bottom: 30px;"><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
+                                <form id="quizForm">
+                                    <input type="tel" name="phone" class="phone-input-field" placeholder="Ваш телефон" value="+7" required>
+                                    <button type="submit" class="btn-pdf" id="getPdfBtn">Получить чек-лист</button>
+                                </form>
                             </div>
                         </div>
                     `;
                     quizContainer.innerHTML = html;
-
-                    const optionBtns = document.querySelectorAll('.option-btn');
                     
-                    optionBtns.forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            answers[currentStep] = {
-                                question: quizData[currentStep].question,
-                                answer: this.dataset.option
-                            };
-                            
-                            optionBtns.forEach(b => b.classList.remove('selected'));
-                            this.classList.add('selected');
-                            
-                            setTimeout(() => {
-                                currentStep++;
-                                renderQuiz();
-                            }, 200);
-                        });
-                    });
-                } else {
-                    if (!showPhoneStep) {
-                        // Шаг с вводом телефона
-                        let html = `
-                            <div class="quiz-header">
-                                <h2>📋 Остался последний шаг!</h2>
-                                <p>Введите номер телефона, чтобы получить чек-лист</p>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 100%;"></div>
-                            </div>
-                            <div class="final-block">
-                                <div class="phone-input-block">
-                                    <h3>Ваш чек-лист готов</h3>
-                                    <p style="margin-bottom: 30px;"><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
-                                    <form id="quizForm">
-                                        <input type="tel" name="phone" class="phone-input-field" placeholder="Ваш телефон" value="+7" required>
-                                        <button type="submit" class="btn-pdf" id="getPdfBtn">Получить чек-лист</button>
-                                    </form>
-                                </div>
-                            </div>
-                        `;
-                        quizContainer.innerHTML = html;
-                        
-                        const phoneField = document.querySelector('.phone-input-field');
-                        if (phoneField) {
-                            phoneField.addEventListener('focus', function() {
-                                if (this.value === '+7' || this.value === '') {
-                                    this.value = '+7 ';
-                                }
-                            });
-                        }
-                        
-                        document.getElementById('quizForm')?.addEventListener('submit', async function(e) {
-                            e.preventDefault();
-                            
-                            const phone = this.querySelector('input[name="phone"]').value;
-                            
-                            // Формируем текст с ответами
-                            let answersText = '';
-                            answers.forEach((item, index) => {
-                                answersText += `${quizData[index].question}: ${item.answer}\n`;
-                            });
-                            
-                            const sent = await sendToTelegram(phone, 'Квиз для семей с детьми', answersText);
-                            
-                            if (sent) {
-                                showPhoneStep = true;
-                                renderQuiz();
-                            } else {
-                                alert('Ошибка отправки. Пожалуйста, позвоните нам: +7 (812) 555-55-55');
+                    const phoneField = document.querySelector('.phone-input-field');
+                    if (phoneField) {
+                        phoneField.addEventListener('focus', function() {
+                            if (this.value === '+7' || this.value === '') {
+                                this.value = '+7 ';
                             }
                         });
-                    } else {
-                        // Финальный экран
-                        let html = `
-                            <div class="quiz-header">
-                                <h2>✉️ Спасибо за ответы!</h2>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 100%;"></div>
-                            </div>
-                            <div class="final-block">
-                                <div class="success-message">
-                                    <i class="fas fa-check-circle"></i>
-                                    <h3>Мы уже готовим для вас расчёт</h3>
-                                    <p style="font-size: 1.2rem; margin: 20px 0;">
-                                        Наш специалист свяжется с вами в ближайшее время<br>
-                                        для уточнения деталей и подготовки точной сметы.
-                                    </p>
-                                </div>
-                                
-                                <div class="offer-note" style="background: var(--pure-white); border: 2px dashed var(--accent-rose);">
-                                    <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--accent-rose);"></i>
-                                    <h3 style="margin: 15px 0;">Ваш чек-лист готов!</h3>
-                                    <p><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
-                                    <p style="margin: 15px 0;">Чтобы получить PDF-файл, перейдите в наш Telegram-бот — он пришлёт его мгновенно!</p>
-                                </div>
-                                
-                                <a href="https://t.me/remontiki_spb_msk_bot" class="telegram-btn" target="_blank">
-                                    <i class="fab fa-telegram-plane"></i> Получить чек-лист в Telegram
-                                </a>
-                                
-                                <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.7;">
-                                    Нажимая на кнопку, вы соглашаетесь на получение чек-листа и консультации
+                    }
+                    
+                    document.getElementById('quizForm')?.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        
+                        if (isSubmitting) return;
+                        isSubmitting = true;
+                        
+                        const submitBtn = this.querySelector('button[type="submit"]');
+                        const originalText = submitBtn.textContent;
+                        submitBtn.textContent = 'Отправка...';
+                        submitBtn.disabled = true;
+                        
+                        const phone = this.querySelector('input[name="phone"]').value;
+                        
+                        let answersText = '';
+                        answers.forEach((item, index) => {
+                            answersText += `${quizData[index].question}: ${item.answer}\n`;
+                        });
+                        
+                        const sent = await sendFormData(phone, 'Квиз для семей с детьми', answersText);
+                        
+                        if (sent) {
+                            showPhoneStep = true;
+                            renderQuiz();
+                        } else {
+                            alert('Не удалось отправить данные. Пожалуйста, позвоните нам напрямую: +7 (812) 555-55-55 или напишите в Telegram');
+                            submitBtn.textContent = originalText;
+                            submitBtn.disabled = false;
+                            isSubmitting = false;
+                        }
+                    });
+                } else {
+                    let html = `
+                        <div class="quiz-header">
+                            <h2>✉️ Спасибо за ответы!</h2>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <div class="final-block">
+                            <div class="success-message">
+                                <i class="fas fa-check-circle"></i>
+                                <h3>Мы уже готовим для вас расчёт</h3>
+                                <p style="font-size: 1.2rem; margin: 20px 0;">
+                                    Наш специалист свяжется с вами в ближайшее время<br>
+                                    для уточнения деталей и подготовки точной сметы.
                                 </p>
                             </div>
-                        `;
-                        quizContainer.innerHTML = html;
-                    }
+                            
+                            <div class="offer-note" style="background: var(--pure-white); border: 2px dashed var(--accent-rose);">
+                                <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--accent-rose);"></i>
+                                <h3 style="margin: 15px 0;">Ваш чек-лист готов!</h3>
+                                <p><strong>«Безопасный ремонт, когда в доме дети: 15 важных шагов»</strong></p>
+                                <p style="margin: 15px 0;">Чтобы получить PDF-файл, перейдите в наш Telegram-бот — он пришлёт его мгновенно!</p>
+                            </div>
+                            
+                            <a href="https://t.me/remontiki_spb_msk_bot" class="telegram-btn" target="_blank">
+                                <i class="fab fa-telegram-plane"></i> Получить чек-лист в Telegram
+                            </a>
+                            
+                            <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.7;">
+                                Нажимая на кнопку, вы соглашаетесь на получение чек-листа и консультации
+                            </p>
+                        </div>
+                    `;
+                    quizContainer.innerHTML = html;
                 }
             }
-
-            // Инициализация квиза
-            renderQuiz();
-
-            // ===== ОБРАБОТКА ФОРМЫ БЕСПЛАТНОГО ВЫЕЗДА =====
-            document.getElementById('freeVisitForm')?.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const phone = this.querySelector('input[name="phone"]').value;
-                const sent = await sendToTelegram(phone, 'Бесплатный выезд замерщика');
-                
-                if (sent) {
-                    alert('Спасибо! Замерщик свяжется с вами для уточнения времени.');
-                    this.reset();
-                    this.querySelector('input[name="phone"]').value = '+7';
-                } else {
-                    alert('Ошибка отправки. Пожалуйста, позвоните нам: +7 (812) 555-55-55');
-                }
-            });
-
-            // ===== ОБРАБОТКА ФОРМЫ "ПОЗВОНИТЕ МНЕ" =====
-            document.getElementById('callForm')?.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const phone = this.querySelector('input[name="phone"]').value;
-                const sent = await sendToTelegram(phone, 'Обратный звонок');
-                
-                if (sent) {
-                    alert('Менеджер позвонит вам в ближайшее время!');
-                    this.reset();
-                    this.querySelector('input[name="phone"]').value = '+7';
-                } else {
-                    alert('Ошибка отправки. Пожалуйста, позвоните нам: +7 (812) 555-55-55');
-                }
-            });
-
-        })();
-
-        // ===== ЛОГИКА ГАЛЕРЕИ =====
-        let slideIndex = 0;
-        const modal = document.getElementById('imageModal');
-        const slides = document.getElementsByClassName('modal-slide');
-
-        function openModal(index) {
-            slideIndex = index;
-            modal.style.display = 'flex';
-            showSlide(slideIndex);
         }
 
-        function closeModal() {
-            modal.style.display = 'none';
-        }
+        renderQuiz();
 
-        function changeSlide(n) {
-            showSlide(slideIndex + n);
-        }
-
-        function showSlide(n) {
-            if (n >= slides.length) slideIndex = 0;
-            else if (n < 0) slideIndex = slides.length - 1;
-            else slideIndex = n;
+        // ===== ОБРАБОТКА ФОРМЫ БЕСПЛАТНОГО ВЫЕЗДА =====
+        document.getElementById('freeVisitForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = 'none';
+            if (isSubmitting) return;
+            isSubmitting = true;
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            const phone = this.querySelector('input[name="phone"]').value;
+            const sent = await sendFormData(phone, 'Бесплатный выезд замерщика');
+            
+            if (sent) {
+                alert('Спасибо! Замерщик свяжется с вами для уточнения времени.');
+                this.reset();
+                this.querySelector('input[name="phone"]').value = '+7';
+            } else {
+                alert('Не удалось отправить заявку. Пожалуйста, позвоните нам напрямую: +7 (812) 555-55-55');
             }
-            slides[slideIndex].style.display = 'block';
-        }
+            
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            isSubmitting = false;
+        });
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
+        // ===== ОБРАБОТКА ФОРМЫ "ПОЗВОНИТЕ МНЕ" =====
+        document.getElementById('callForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (isSubmitting) return;
+            isSubmitting = true;
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            const phone = this.querySelector('input[name="phone"]').value;
+            const sent = await sendFormData(phone, 'Обратный звонок');
+            
+            if (sent) {
+                alert('Менеджер позвонит вам в ближайшее время!');
+                this.reset();
+                this.querySelector('input[name="phone"]').value = '+7';
+            } else {
+                alert('Не удалось отправить заявку. Пожалуйста, позвоните нам напрямую: +7 (812) 555-55-55');
             }
+            
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            isSubmitting = false;
+        });
+
+    })();
+
+    // ===== ЛОГИКА ГАЛЕРЕИ =====
+    let slideIndex = 0;
+    const modal = document.getElementById('imageModal');
+    const slides = document.getElementsByClassName('modal-slide');
+
+    function openModal(index) {
+        slideIndex = index;
+        modal.style.display = 'flex';
+        showSlide(slideIndex);
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    function changeSlide(n) {
+        showSlide(slideIndex + n);
+    }
+
+    function showSlide(n) {
+        if (n >= slides.length) slideIndex = 0;
+        else if (n < 0) slideIndex = slides.length - 1;
+        else slideIndex = n;
+        
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = 'none';
         }
+        slides[slideIndex].style.display = 'block';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
     </script>
 </body>
 </html>
