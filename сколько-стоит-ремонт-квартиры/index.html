@@ -87,7 +87,7 @@
             padding: 0 30px;
         }
 
-        /* ===== ЛОГОТИП (ИСПРАВЛЕННЫЙ) ===== */
+        /* ===== ЛОГОТИП ===== */
         .logo-area {
             display: flex;
             align-items: center;
@@ -122,7 +122,7 @@
             top: 0;
             z-index: 50;
             backdrop-filter: blur(8px);
-            background-color: rgba(255,255,255,0.85);
+            background-color: rgba(255,255,255,0.9);
             transition: all 0.3s ease;
         }
         .header .container {
@@ -142,34 +142,41 @@
             font-size: 1.3rem;
             color: var(--primary-dark);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: all 0.3s ease;
             white-space: nowrap;
         }
         .phone-link i {
             color: var(--accent-rose);
             margin-right: 8px;
             font-size: 1.1rem;
+            transition: all 0.3s ease;
         }
         .phone-link:hover {
             color: var(--accent-rose);
         }
 
-        /* Стили для шапки при скролле */
+        /* Стили для шапки при скролле - МИНИМАЛЬНАЯ ВЕРСИЯ */
+        .header.scrolled {
+            padding: 10px 0;
+        }
         .header.scrolled .logo-area {
             opacity: 0;
-            visibility: hidden;
             width: 0;
-            transform: translateX(-20px);
+            visibility: hidden;
+            transform: translateX(-50px);
         }
         .header.scrolled .container {
             justify-content: center;
         }
         .header.scrolled .phone-link {
-            font-size: 1.5rem;
-            background: rgba(255,255,255,0.9);
-            padding: 8px 20px;
-            border-radius: 40px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.95);
+            padding: 6px 16px;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .header.scrolled .phone-link i {
+            font-size: 1rem;
         }
 
         /* ===== HERO СЕКЦИЯ ===== */
@@ -975,6 +982,12 @@
             .quiz-container { padding: 30px; }
             .free-visit-form { flex-direction: column; }
             .free-visit-form button { width: 100%; }
+            
+            /* На мобильных шапка при скролле еще компактнее */
+            .header.scrolled .phone-link {
+                font-size: 1.1rem;
+                padding: 4px 12px;
+            }
         }
         @media (max-width: 600px) {
             .container { padding: 0 20px; }
@@ -1295,18 +1308,15 @@
 
             // ========== ЛОГИКА "УМНОЙ" ШАПКИ ==========
             const header = document.getElementById('mainHeader');
-            let lastScrollTop = 0;
             
             window.addEventListener('scroll', function() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
-                if (scrollTop > 100) {
+                if (scrollTop > 50) {
                     header.classList.add('scrolled');
                 } else {
                     header.classList.remove('scrolled');
                 }
-                
-                lastScrollTop = scrollTop;
             });
 
             // ========== ЛОГИКА КВИЗА (ОДНО НАЖАТИЕ) ==========
