@@ -91,6 +91,7 @@
         .logo-area {
             display: flex;
             align-items: center;
+            transition: all 0.3s ease;
         }
         .logo-text {
             font-size: 1.8rem;
@@ -99,6 +100,7 @@
             line-height: 1.2;
             border-left: 3px solid var(--accent-rose);
             padding-left: 15px;
+            transition: all 0.3s ease;
         }
         .logo-text span {
             font-weight: 700;
@@ -108,6 +110,7 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             margin-top: 4px;
+            transition: all 0.3s ease;
         }
 
         /* ===== ШАПКА ===== */
@@ -120,15 +123,18 @@
             z-index: 50;
             backdrop-filter: blur(8px);
             background-color: rgba(255,255,255,0.85);
+            transition: all 0.3s ease;
         }
         .header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
         }
         .contact-info {
             display: flex;
             align-items: center;
+            transition: all 0.3s ease;
         }
         .phone-link {
             font-family: 'Montserrat', sans-serif;
@@ -137,6 +143,7 @@
             color: var(--primary-dark);
             text-decoration: none;
             transition: color 0.2s;
+            white-space: nowrap;
         }
         .phone-link i {
             color: var(--accent-rose);
@@ -145,6 +152,24 @@
         }
         .phone-link:hover {
             color: var(--accent-rose);
+        }
+
+        /* Стили для шапки при скролле */
+        .header.scrolled .logo-area {
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
+            transform: translateX(-20px);
+        }
+        .header.scrolled .container {
+            justify-content: center;
+        }
+        .header.scrolled .phone-link {
+            font-size: 1.5rem;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 20px;
+            border-radius: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         /* ===== HERO СЕКЦИЯ ===== */
@@ -737,11 +762,16 @@
             transition: 0.3s;
             border-radius: 0 3px 3px 0;
             user-select: none;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.5);
+            text-decoration: none;
+        }
+        .prev {
+            left: 10px;
+            border-radius: 3px;
         }
         .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
+            right: 10px;
+            border-radius: 3px;
         }
         .prev:hover, .next:hover {
             background: var(--accent-rose);
@@ -953,12 +983,24 @@
             .quiz-container { padding: 25px; border-radius: 30px; }
             .question-block h3 { font-size: 1.4rem; }
             .portfolio-images { grid-template-columns: 1fr; }
+            
+            /* Фикс для стрелок на мобильных */
+            .prev {
+                left: 5px;
+                padding: 12px;
+                font-size: 24px;
+            }
+            .next {
+                right: 5px;
+                padding: 12px;
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- ШАПКА (САЙТА) -->
-    <header class="header">
+    <header class="header" id="mainHeader">
         <div class="container">
             <div class="logo-area">
                 <div class="logo-text">
@@ -1249,6 +1291,22 @@
                         this.value = '+7 ';
                     }
                 });
+            });
+
+            // ========== ЛОГИКА "УМНОЙ" ШАПКИ ==========
+            const header = document.getElementById('mainHeader');
+            let lastScrollTop = 0;
+            
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                lastScrollTop = scrollTop;
             });
 
             // ========== ЛОГИКА КВИЗА (ОДНО НАЖАТИЕ) ==========
